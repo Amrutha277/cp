@@ -1,0 +1,53 @@
+#User function Template for python3
+
+
+class Solution:
+
+    def kthElement(self, a, b, k):
+        m, n = len(a), len(b)
+        # mid = total // 2
+        # is_even = (total % 2 == 0)
+        # print(is_even)
+        i, j, merged_index = 0, 0, 0
+        now, prev = 0, 0 
+        
+        while merged_index < k:
+            prev = now
+            
+            if i < m and (j >= n or a[i] <= b[j]):
+                now = a[i]
+                i += 1
+            else:
+                now = b[j]
+                j += 1
+            
+            merged_index += 1
+        return now
+        
+
+
+
+#{ 
+ # Driver Code Starts
+#Initial Template for Python 3
+
+
+def main():
+
+    T = int(input())
+
+    while (T > 0):
+
+        k = int(input())
+        a = [int(x) for x in input().strip().split()]
+        b = [int(x) for x in input().strip().split()]
+        ob = Solution()
+        print(ob.kthElement(a, b, k))
+        print("~")
+        T -= 1
+
+
+if __name__ == "__main__":
+    main()
+
+# } Driver Code Ends
