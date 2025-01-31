@@ -11,7 +11,7 @@ class Solution(object):
             if i+nums[i]>=goal:
                 goal=i
                 print(goal)
-        return True if goal==0 else False
+        return goal==0
         
 
             
