@@ -10,35 +10,41 @@ class Solution(object):
         :type root: Optional[TreeNode]
         :rtype: bool
         """
-        # if root.left:
-        #     if root.left.val >= root.val:
+
+        # def inorder(node):
+        #     if not node:
+        #         return 
+
+        #     inorder(node.left)
+        #     result.append(node.val)
+        #     inorder(node.right)
+
+        # inorder(root)
+        # # return result
+
+        # for i in range(1, len(result)):
+        #     if result[i]<=result[i-1]:
         #         return False
-        #     else:
-        #         self.isValidBST( root.left)
-        # if root.right:
-        #     if root.right.val<= root.val:
-        #         return False
-        #     else:
-        #         self.isValidBST( root.right)
-        
         # return True
-        result=[]
+
+        self.prev= None #self. so that it can be accessed across functions
+
         def inorder(node):
             if not node:
-                return 
-
-            inorder(node.left)
-            result.append(node.val)
-            inorder(node.right)
-
-        inorder(root)
-        # return result
-
-        for i in range(1, len(result)):
-            if result[i]<=result[i-1]:
+                return True
+            
+            if not inorder(node.left):
                 return False
-        return True
 
+            if self.prev is not None and self.prev>= node.val:
+                return False
+            
+            self.prev= node.val
+            if not inorder(node.right):
+                return False
+            return True
+
+        return inorder(root)
 
 
         
