@@ -1,4 +1,4 @@
-# Last updated: 4/18/2025, 2:11:12 PM
+# Last updated: 4/18/2025, 4:40:59 PM
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, val=0, left=None, right=None):
@@ -11,27 +11,22 @@ class Solution(object):
         :type root: Optional[TreeNode]
         :rtype: List[int]
         """
+        result=[]
+        s1=[]
         if not root:
             return []
-
-        result = []
-        stack1 = [root] 
-        stack2 = [] 
-
-        while stack1:
-            root = stack1.pop() 
-            stack2.append(root) 
-
-            if root.left:
-                stack1.append(root.left)
-            if root.right:
-                stack1.append(root.right)
-
-        while stack2:
-            root = stack2.pop()
-            result.append(root.val)
-        
+        visited=None
+        current=root
+        while current or s1:
+            if current:
+                s1.append(current)
+                current= current.left
+            else:
+                peek=s1[-1]
+                if peek.right and visited!= peek.right:
+                    current= peek.right
+                else:
+                    result.append(peek.val)
+                    visited= s1.pop()
         return result
-            
-
 
