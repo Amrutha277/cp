@@ -1,27 +1,15 @@
+# Last updated: 7/5/2025, 5:50:31 PM
 # Definition for singly-linked list.
-# class ListNode(object):
+# class ListNode:
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
-class Solution(object):
-    def middleNode(self, head):
-        """
-        :type head: Optional[ListNode]
-        :rtype: Optional[ListNode]
-        """
-        temp = head
-        count = 0
-        while temp:
-            count+=1
-            temp = temp.next
+class Solution:
+    def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        slow= head
+        fast= head
+        while fast and fast.next:
+            slow= slow.next
+            fast= fast.next.next
         
-        mid = count//2 +1
-    
-        # print(mid)
-        mid = mid-1
-        temp =head
-        while mid>0 and temp is not None:
-            mid -=1
-            temp =temp.next
-        
-        return temp
+        return slow
