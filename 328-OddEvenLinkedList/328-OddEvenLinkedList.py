@@ -1,4 +1,4 @@
-# Last updated: 7/5/2025, 8:29:24 PM
+# Last updated: 7/9/2025, 7:07:33 PM
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, val=0, next=None):
@@ -19,6 +19,8 @@ class Solution:
             even.next= odd.next
             even= even.next
 
+        
         odd.next= even_og
+        
 
         return head
