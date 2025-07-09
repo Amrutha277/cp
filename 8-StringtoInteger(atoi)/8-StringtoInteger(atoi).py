@@ -1,42 +1,39 @@
-class Solution(object):
-    def myAtoi(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        s = s.lstrip()
-
+# Last updated: 7/9/2025, 7:56:51 PM
+class Solution:
+    def myAtoi(self, s: str) -> int:
+        s= s.lstrip()
         if not s:
             return 0
+        sign=1
+        if s[0] =='-':
+            sign= -1
+            s= s[1:]
+        elif s[0] =='+':
+            s= s[1:]
+        s= s.lstrip("0")
+        print(s)
+        res= []
 
-        sign = 1
-
-        if s[0] == "-":
-            sign = -1
-            s = s[1:]
-        elif s[0] == "+":
-            sign= 1
-            s = s[1:]
-        
-        result = 0
         for char in s:
             if char.isdigit():
-                result = result*10+ int(char)
+                res.append(char)
             else:
                 break
+        print(res)
+        if not res:
+            return 0
+        num=0
+        for i in range(len(res)):
+            num= num*10 + int(res[i])
+            print(num)
         
-        result= sign*result
+        if sign == -1:
+            num= -1* num
 
-        min_lim= -2**31
-        max_lim= 2**31-1
+        
+        if num < -2**31:
+            num= -2**31
+        elif num> 2**31-1:
+            num= 2**31-1
 
-        if result<min_lim:
-            result= min_lim
-        elif result>max_lim:
-            result = max_lim
-
-        return result
-
-
-         
-    
+        return num
