@@ -1,4 +1,4 @@
-# Last updated: 7/9/2025, 7:57:27 PM
+# Last updated: 7/9/2025, 7:58:12 PM
 class Solution:
     def myAtoi(self, s: str) -> int:
         s= s.lstrip()
