@@ -1,24 +1,27 @@
-class Solution(object):
-    def combinationSum2(self, candidates, target):
-        """
-        :type candidates: List[int]
-        :type target: int
-        :rtype: List[List[int]]
-        """
-        curr_set, result = [], []
-        curr_sum = 0
-        candidates.sort()
-        def helper(index, curr_set, curr_sum):
-            if curr_sum == target:
-                result.append(list(curr_set))
+# Last updated: 7/12/2025, 5:46:46 PM
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        
+        result=[]
+        def backtrack(index, path, cur_sum):
+            if cur_sum==target:
+                result.append(path[:])
                 return
+            
+            if cur_sum> target or index == len(candidates):
+                return
+            
+            candidates.sort()
             for i in range(index, len(candidates)):
-                if i> index and candidates[i]== candidates[i-1]:
+                if i > index and candidates[i] == candidates[i-1]:
                     continue
-                if curr_sum+ candidates[i]>target:
-                    break
-                curr_set.append(candidates[i])
-                helper(i+1, curr_set, curr_sum+candidates[i])
-                curr_set.pop()
-        helper(0,[],0)
+    
+                path.append(candidates[i])
+                backtrack(i+1, path, cur_sum+ candidates[i])
+                path.pop()
+
+                # backtrack(index+1, path, cur_sum)
+        
+        backtrack(0,[],0)
         return result
+            
