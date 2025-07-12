@@ -1,26 +1,18 @@
-class Solution(object):
-    def combinationSum3(self, k, n):
-        """
-        :type k: int
-        :type n: int
-        :rtype: List[List[int]]
-        """
-        nums=list(range(1,10))
+# Last updated: 7/12/2025, 6:27:16 PM
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
         result=[]
-        def helper(index, curr_set, curr_sum):
-            if len(curr_set) == k and curr_sum==n:
-                result.append(curr_set[:])
-                return
         
-            for i in range(index, len(nums)):
-                # if i> index and nums[i]==nums[i-1]:
-                #     continue
-                if curr_sum+nums[i]> n:
-                    continue
-                curr_set.append(nums[i])
-                helper(i+1, curr_set,curr_sum+nums[i])
-                curr_set.pop()
+        def backtrack(index, path, cur_sum):
+            if len(path) == k:
+                if cur_sum == n:
+                    result.append(path[:])
+                return
 
-        helper(0,[],0)
+            for i in range(index, 10):
+                path.append(i)
+                backtrack(i+1, path, cur_sum+i)
+                path.pop()
+
+        backtrack(1,[],0)
         return result
-
