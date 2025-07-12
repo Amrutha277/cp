@@ -1,32 +1,29 @@
-class Solution(object):
-    def letterCombinations(self, digits):
-        """
-        :type digits: str
-        :rtype: List[str]
-        """
-        total_map= {
-            '2': 'abc',
-            '3': 'def',
-            '4': 'ghi',
-            '5': 'jkl',
-            '6': 'mno',
-            '7': 'pqrs',
-            '8': 'tuv',
-            '9': 'wxyz'
+# Last updated: 7/12/2025, 6:59:09 PM
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        my_dict= {
+            '2': "abc",
+            '3': "def",
+            '4': "ghi",
+            '5': "jkl",
+            '6': "mno",
+            '7': "pqrs",
+            '8': "tuv",
+            '9': "wxyz"
         }
 
-        result=[]
         if not digits:
             return []
-        def helper(index, curr_set):
-            if index==len(digits):
-                result.append(''.join(curr_set))
+
+        result=[]
+
+        def backtrack(index, path):
+            if index== len(digits):
+                result.append(path[:])
                 return
 
-            for letter in total_map[digits[index]]:
-                curr_set.append(letter)
-                helper(index+1, curr_set)
-                curr_set.pop()
-            
-        helper(0,[])
+            for char in my_dict[digits[index]]:
+                backtrack(index+1, path+char)
+
+        backtrack(0, "")
         return result
