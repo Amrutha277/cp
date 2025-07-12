@@ -1,23 +1,14 @@
-class Solution(object):
-    def subsets(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
-        result =[]
-        index=0
-
-        def backtrack(index, cur_ans):
-            if index == len(nums):
-                result.append(cur_ans[:])
-                return
-            
-            
-            cur_ans.append(nums[index])
-            backtrack(index+1, cur_ans)
-            cur_ans.pop()
-            backtrack(index+1, cur_ans)
-            
-        backtrack(0,[])
+# Last updated: 7/12/2025, 4:29:56 PM
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        result=[]
+        def backtrack(start, path):
+            result.append(path[:])
+            for i in range(start, len(nums)):
+                path.append(nums[i])
+                backtrack(i+1, path)
+                path.pop()
+        backtrack(0, [])
         return result
+            
             
