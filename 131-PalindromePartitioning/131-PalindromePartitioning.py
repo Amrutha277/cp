@@ -1,29 +1,29 @@
-class Solution(object):
-    def partition(self, s):
-        """
-        :type s: str
-        :rtype: List[List[str]]
-        """
+# Last updated: 7/15/2025, 8:05:57 PM
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
         result=[]
-        def pal_check(start, end, s):
-            while start<=end:
-                if s[start]!=s[end]:
-                    return False
-                
-                start+=1
-                end -=1
-            return True
-            
-        def helper(index, curr_set):
+        path=[]
+
+        def helper(index, path):
             if index== len(s):
-                result.append(curr_set[:])
+                result.append(path[:])
                 return
+
+            for i in range(index, len(s)):
+                if ispalindrome(s, index, i):
+                    path.append(s[index:i+1])
+                    helper(i+1, path)
+                    path.pop()
+
             
-            for i in range(index,len(s)):
-                if pal_check(index, i, s):
-                    curr_set.append(s[index:i+1])
-                    helper(i+1, curr_set)
-                    curr_set.pop()
+        def ispalindrome(s, start, end):
+            while start<= end:
+                if s[start] != s[end]:
+                    return False  
+                start+=1
+                end-=1
+            return True
+    
         helper(0,[])
         return result
-            
+
