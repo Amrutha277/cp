@@ -1,44 +1,41 @@
-// Last updated: 7/27/2025, 8:12:38 PM
+// Last updated: 7/27/2025, 8:42:32 PM
 class Solution {
 public:
-    unordered_map<string,bool> memo;
-    bool isScramble(string s1, string s2) {
-        //dp with memoisation
-        
+    int maxPoints(vector<vector<int>>& points) {
+        int n = points.size();
+        if(n<= 2){
+            return n;
+        }
+        int maxResult = 0;
 
-        if(s1 == s2){
-            return true;
-        }
-        string key = s1 + "" + s2;
-        if(memo.count(key)){
-            return memo[key];
-        }
-        
-        // if(s1.size() != s2.size()){
-        //     (return) false;
-        // }
-        string sorted1 = s1;
-        string sorted2 = s2;
-        sort(sorted1.begin(),sorted1.end());
-        sort(sorted2.begin(),sorted2.end());
-        if(sorted1 != sorted2){
-
-            return memo[key] = false;
-        }
-        int n = s1.size();
-        for(int i = 1; i<n ; i++){
-            // no swap
-            if(isScramble(s1.substr(0,i),s2.substr(0,i)) && isScramble(s1.substr(i),s2.substr(i))){
-                return memo[key] = true;
+        for(int i = 0; i<n; i++){
+            unordered_map<string, int> slopeCount ;
+            int duplicates = 1;
+            int vertical = 0;
+            int localMax = 0;
+            for(int j = i+1;j<n;j++){
+                int dx = points[j][0] - points[i][0];
+                int dy = points[j][1] - points[i][1];
+                if(dx == 0 && dy == 0){
+                    duplicates++;
+                }else{
+                    int gcd = __gcd(dx,dy);
+                    dx = dx/gcd;
+                    dy = dy/gcd;
+                    if(dx<0){
+                        dx = -dx;
+                        dy = -dy;
+                    }
+                    string slopeKey = to_string(dy) + "/" + to_string(dx);
+                    slopeCount[slopeKey]++;
+                    localMax = max(localMax, slopeCount[slopeKey]);
+                }
             }
-
-            // swap
-            if(isScramble(s1.substr(0,i),s2.substr(n-i)) && isScramble(s1.substr(i),s2.substr(0,n-i))){
-                return memo[key] = true;
-            }
+            maxResult = 
+            max(maxResult,localMax+duplicates);
         }
-        return memo[key] = false;
-        //Time complexity:O(N^4) worst case
-       // space O(N^3)n-
+        return maxResult;
+        //O(n2)
+        
     }
 };
