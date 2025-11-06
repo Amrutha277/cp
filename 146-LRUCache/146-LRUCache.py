@@ -1,58 +1,54 @@
-# Last updated: 9/25/2025, 9:41:29 AM
+# Last updated: 11/5/2025, 9:41:15 PM
+class Node:
+    def __init__(self, key: int, value:int):
+        self.key= key
+        self.value= value
+        self.prev= None
+        self.next= None
 class LRUCache:
-    
-    class _Node:
-        __slots__ = ("key", "val", "prev", "next")
-        def __init__(self, key:int, val:int):
-            self.key, self.val= key, val
-            self.prev = self.next= None
-    
+
     def __init__(self, capacity: int):
-        self.cap = capacity
-        self.map ={}
-        #dummy head and tail and linking them head <-> tail
-        self.head, self.tail =  self._Node(0,0), self._Node(0,0)
-        self.head.next , self.tail.prev = self.tail, self.head
+        self.capacity= capacity
+        self.cache ={}
 
-    def _add_to_front(self,node):
-        node.prev, node.next = self.head, self.head.next
-        self.head.next.prev = node
-        self.head.next= node
-    
-    def _remove(self,node):
-        node.prev.next = node.next
-        node.next.prev= node.prev
-    
-    def _touch(self, node):
-        self._remove(node)
-        self._add_to_front(node)
-    
-    def _pop(self):
-        lru= self.tail.prev
-        self._remove(lru)
-        return lru
-
-    def get(self, key: int) -> int:
-        if key not in self.map:
-            return -1
+        self.head= Node(0,0)
+        self.tail= Node(0,0)
+        self.head.next= self.tail
+        self.tail.prev= self.head
         
-        node= self.map[key]
-        self._touch(node)
-        return node.val
+    
+    def remove(self, node:Node):
+        prev_node= node.prev
+        next_node= node.next
+        prev_node.next= next_node
+        next_node.prev= prev_node
+        
 
+    def insert_at_front(self, node:Node):
+        node.next= self.head.next
+        node.prev= self.head
+        self.head.next.prev= node
+        self.head.next= node
+        
+    def get(self, key: int) -> int:
+        if key in self.cache:
+            node= self.cache[key]
+            self.remove(node)
+            self.insert_at_front(node)
+            return node.value
+        return -1
+       
     def put(self, key: int, value: int) -> None:
-        if key in self.map:
-            node = self.map[key]
-            node.val = value
-            self._touch(node)
-            return
-        node= self._Node(key, value)
-        self.map[key]= node
-        self._add_to_front(node)
-
-        if len(self.map)>self.cap:
-            old = self._pop()
-            del self.map[old.key]
+        if key in self.cache:
+            self.remove(self.cache[key])
+        elif len(self.cache) == self.capacity:
+            lru_node= self.tail.prev
+            self.remove(lru_node)
+            del self.cache[lru_node.key]
+        
+        new_node= Node(key, value)
+        self.insert_at_front(new_node)
+        self.cache[key]= new_node
         
 
 
